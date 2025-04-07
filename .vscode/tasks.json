@@ -1,0 +1,30 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Vivado",
+            "type": "process",
+            "options": {
+                "env": {
+                    "LD_PRELOAD": "/lib/x86_64-linux-gnu/libudev.so.1"
+                }
+            },
+            "command": "vivado",
+            "args": [],
+            "icon": {
+                "id": "package"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Gowin",
+            "type": "process",
+            "command": "gw_ide",
+            "args": [],
+            "icon": {
+                "id": "package"
+            },
+            "problemMatcher": []
+        }
+    ]
+}

@@ -1,0 +1,23 @@
+# Output files
+*.vvp
+*.vcd
+
+# Vivado EDA files
+vivado*
+hs_*
+*.cache
+.metadata
+*.data
+*.ipdefs
+.Xil
+*.sdk
+*.hw
+*.ip_user_files
+*.runs
+*.sim
+Xilinx_*
+
+# Gowin EDA files
+*/impl
+*.gprj.user
+Gowin_*

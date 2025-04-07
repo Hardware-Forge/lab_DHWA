@@ -1,0 +1,29 @@
+{
+  "name": "Hardware Dev",
+  "image": "ubuntu:jammy",
+  "runArgs": [
+    "--name",
+    "hardware-dev",
+    "-v",
+    "/dev/bus/usb:/dev/bus/usb"
+  ],
+  "remoteEnv": {
+    "LANG": "C.UTF-8",
+    "QT_QPA_PLATFORM_PLUGIN_PATH": "/usr/lib/x86_64-linux-gnu/qt5/plugins",
+    "QT_QPA_PLATFORM": "xcb",
+    "QT_XCB_GL_INTEGRATION": "none",
+    "PATH": "/opt/Xilinx/Vivado/2018.3/bin:/opt/Gowin/IDE/bin:${containerEnv:PATH}"
+  },
+  "initializeCommand": "xhost +SI:localuser:$(id -un)",
+  "postCreateCommand": "./.devcontainer/post-create.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "mshr-h.veriloghdl",
+        "ms-python.python",
+        "ms-python.black-formatter",
+        "ms-python.flake8"
+      ]
+    }
+  }
+}
