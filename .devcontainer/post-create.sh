@@ -115,3 +115,12 @@ else
 echo "Skipping Gowin installation"
 
 fi
+
+# Install neorv32 enviroment
+
+cd /root/
+git clone https://github.com/stnolting/neorv32-setups.git
+cd neorv32-setups
+git submodule update --init --recursive
+cd gowineda/tang-nano-9k/
+gw_sh create_project.tcl
