@@ -16,7 +16,7 @@ This repository provides a fully containerized environment equipped with all the
 ## Building the Environment
 
 ### Pre-requisites (For Optional EDA Installation)
-To install **Vivado** or **Gowin**, place the corresponding `.tar.gz` installation file (obtained from the official websites) in the repository root before proceeding. The build process will automatically handle installation within the container.
+To install **Vivado** or **Gowin**, place the corresponding `.tar.gz` installation file for Linux (obtained from the official websites) in the repository root before proceeding. The build process will automatically handle installation within the container.
 
 ### Building in Visual Studio Code
 1. Clone this repository:
