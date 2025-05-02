@@ -78,10 +78,11 @@ then
 
 dpkg --add-architecture i386
 
-apt-get install -y minicom gcc-riscv64-unknown-elf libgl1 libnss3 libasound2 libqt5gui5
+apt-get install -y minicom libgl1 libnss3 libasound2 libqt5gui5
 
 # Install openFPGALoader from source
-
+if [[ -z $(which openFPGALoader) ]]
+then
 apt install -y \
   git \
   gzip \
@@ -105,10 +106,16 @@ cmake --build .
 make install
 cd ../..
 rm -rf ./openFPGALoader
+fi
 
+# Install Gowin EDA from tar file
+
+if [[ ! -d /opt/Gowin ]]
+then
 mkdir ./Gowin
 tar xzf ${GOWIN_TAR_FILE}.tar.gz -C ./Gowin
 mv ./Gowin /opt/Gowin
+fi
 
 else
 
@@ -116,11 +123,44 @@ echo "Skipping Gowin installation"
 
 fi
 
+if [[ ! -d neorv32-setups ]]
+then
 # Install neorv32 enviroment
-
-cd /root/
 git clone https://github.com/stnolting/neorv32-setups.git
 cd neorv32-setups
 git submodule update --init --recursive
 cd gowineda/tang-nano-9k/
+if [[ -n $(which gw_sh) ]]
+then
 gw_sh create_project.tcl
+fi
+cd ../../..
+fi
+
+if [[ -f riscv32-gnu-toolchain.tar.gz ]]
+then
+if [[ ! -d /opt/riscv ]]
+then
+mkdir /opt/riscv
+fi
+# extract precompiled toolchain
+tar xf riscv32-gnu-toolchain.tar.gz --directory=/opt/riscv
+else
+
+# Install riscv-gnu-toolchain from source
+git clone https://github.com/riscv/riscv-gnu-toolchain
+cd riscv-gnu-toolchain
+apt install -y autoconf automake autotools-dev curl python3 python3-pip python3-tomli libmpc-dev libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc zlib1g-dev libexpat-dev ninja-build git cmake libglib2.0-dev libslirp-dev
+./configure --prefix=/opt/riscv --with-arch=rv32i --with-abi=ilp32
+# check if the system has 16 or more gb of ram, if not resort to single core compilation
+if [ $(free -g | awk '/^Mem:/{print $2}') -ge 16 ]; then
+    make -j$(nproc)
+else
+    make
+fi
+cd ..
+rm -rf ./riscv-gnu-toolchain
+fi
+
+# Change riscv-gnu-toolchain RISCV_PREFIX ?= to riscv32-unknown-elf- inside neorv32-setups/neorv32/sw/common/common.mk
+sed -i 's/RISCV_PREFIX ?= .*/RISCV_PREFIX ?= riscv32-unknown-elf-/g' neorv32-setups/neorv32/sw/common/common.mk

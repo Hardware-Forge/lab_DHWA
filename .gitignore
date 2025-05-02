@@ -21,3 +21,6 @@ Xilinx_*
 */impl
 *.gprj.user
 Gowin_*
+
+# compiled riscv toolchain
+riscv32-gnu-toolchain.tar.gz
